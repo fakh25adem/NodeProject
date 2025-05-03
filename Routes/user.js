@@ -9,5 +9,5 @@ router.get("/One/:id",protect(["professional","admin","client"]), userController
 router.get("/",protect(["admin"]), userController.getAllUsers);
 router.get("/allProfessionel", userController.getAllProfesionel);
 
-router.get("/allClient/:id",protect(["professional"]), userController.getAllClient);
+router.get("/allClient/:id", userController.getAllClient);
 module.exports = router;

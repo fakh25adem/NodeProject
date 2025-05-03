@@ -184,6 +184,34 @@ exports.getAppointmentsForCalendar = async (req, res) => {
     });
   }
 };
+exports.getAppointmentsCalendarForClient = async (req, res) => {
+  try {
+    const { clientId } = req.params;  // Récupérer l'id du professionnel à partir des paramètres de l'URL
+
+    const appointments = await Appointment.find({
+      client: clientId,
+    })
+      .populate('client', 'nom')
+      .populate('professional', 'nom');
+
+    // Transformer les rendez-vous pour FullCalendar
+    const events = appointments.map(app => ({
+      id: app._id,
+      title: `Rendez-vous avec ${app?.professional?.nom}`,
+      start: `${app.dateOnly}T${app.heureDebut}`,
+      end: `${app.dateOnly}T${app.heureFin}`,
+    }));
+
+    res.status(200).json(events);
+
+  } catch (error) {
+    console.error('Calendar error:', error);
+    res.status(500).json({
+      error: 'Server error',
+      details: error.message
+    });
+  }
+};
 exports.getAll = async (req, res) => {
   try {
 
