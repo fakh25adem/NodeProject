@@ -73,7 +73,7 @@ exports.getAllClient = async (req, res) => {
       // Récupérer uniquement les utilisateurs ayant le rôle 'client'
       const users = await User.find({ role: 'client',_id:req.params.id }).select("-password"); // Exclure le mot de passe
      // console.log("users",users)
-      res.json(users);
+      res.json({ message: " get client all  ", user:users});
     } catch (error) {
         
       res.status(500).json({ message: "Erreur serveur", error });

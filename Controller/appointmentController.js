@@ -226,4 +226,21 @@ exports.getAll = async (req, res) => {
     });
   }
 };
+exports.getAllClientForProf = async (req, res) => {
+  try {
+
+    console.log("reqq",req.params.id )
+    const appointments = await Appointment.find({ 
+      professional: req.params.id 
+    }).populate('client', 'clientId nom email prenom age sexe'); // Populate 'client' field
+    res.status(200).json(appointments);
+
+  } catch (error) {
+    console.error('Client error:', error);
+    res.status(500).json({
+      error: 'Server error',
+      details: error.message
+    });
+  }
+};
 
